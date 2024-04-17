@@ -1,9 +1,9 @@
 import Task from '../../components/Task';
-import taskList from '../../assets/tasks.json'
+import Input from '../../components/Input';
 import { useState } from 'react';
 
 export default function Home() {
-    const [tasks, setTasks] = useState(taskList);
+    const [tasks, setTasks] = useState([]);
 
     function handleChange(id) {
         const newList = tasks.map((task) => {
@@ -26,6 +26,7 @@ export default function Home() {
                     !task.archived && <Task key={index} value={task.name} onChange={e => handleChange(task.id)} />
                 ))}
             </ul>
+            <Input tasks={tasks} setTasks={setTasks} />
         </>
     )
 }
