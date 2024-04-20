@@ -21,9 +21,9 @@ export default function Home() {
         fetchData();
     }, []);
 
-    function handleChange(id) {
+    function handleChange(checkedTask) {
         const newList = tasks.map((task) => {
-            if (task.id === id) {
+            if (task.id === checkedTask.id) {
                 const updatedTask = {
                     ...task,
                     archived: !task.archived,
@@ -33,15 +33,31 @@ export default function Home() {
             return task;
         });
         setTasks(newList);
+        const updateTask = async (task) => {
+            axios.put(`http://localhost:8000/api/tasks/${task.id}`, { archived: !task.archived })
+                .then((response) => console.log(response))
+                .catch((error) => console.log(error))
+        }
+        updateTask(checkedTask)
+
     }
     return (
         <>
             <h2>Welcome to the Home Page 🙋</h2>
+            <h3>Current Tasks</h3>
             <ul style={{ listStyle: 'none' }}>
                 {tasks.map((task, index) => (
-                    !task.archived && <Task key={index} value={task.name} onChange={e => handleChange(task.id)} />
+                    !task.archived && <Task key={index} uniqueIdentifier={'task' + task.id} value={task.name} onChange={e => handleChange(task)} />
                 ))}
             </ul>
+            <details>
+                <summary style={{ fontSize: 'large' }}>Archived Tasks</summary>
+                <ul style={{ listStyle: 'none' }}>
+                    {tasks.map((task, index) => (
+                        task.archived && <Task key={index} uniqueIdentifier={'task' + task.id} value={task.name} onChange={e => handleChange(task)} />
+                    ))}
+                </ul>
+            </details><br />
             <Input tasks={tasks} setTasks={setTasks} />
         </>
     )
