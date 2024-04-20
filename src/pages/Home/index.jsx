@@ -1,9 +1,25 @@
 import Task from '../../components/Task';
 import Input from '../../components/Input';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function Home() {
     const [tasks, setTasks] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            //   setLoading(true);
+            try {
+                const { data: response } = await axios.get('http://localhost:8000/api/tasks');
+                setTasks(response);
+            } catch (error) {
+                console.error(error.message);
+            }
+            // setLoading(false);
+        }
+
+        fetchData();
+    }, []);
 
     function handleChange(id) {
         const newList = tasks.map((task) => {
