@@ -3,11 +3,6 @@ import ReactDOM from 'react-dom/client';
 import Header from './components/Header'
 import Home from './pages/Home'
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route, Navigate } from 'react-router-dom'
-import { redirect } from 'react-router-dom';
-
-const action = async () => {
-  return redirect("/home");
-};
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route
