@@ -4,6 +4,7 @@ import Header from './components/Header'
 import Home from './pages/Home'
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route
@@ -13,6 +14,7 @@ const router = createBrowserRouter(createRoutesFromElements(
     <Route index element={<Navigate to="/home" replace />} />
     <Route path="/home" element={<Home />} />
     <Route path="/login" element={<Login />} />
+    <Route path="/register" element={<Register />} />
   </Route>
 ));
 
