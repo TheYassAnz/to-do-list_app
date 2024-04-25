@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom/client';
 import Header from './components/Header'
 import Home from './pages/Home'
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route, Navigate } from 'react-router-dom'
+import Login from './pages/Login';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route
     path="/"
     element={<Header />}
-    render={() => { }}
   >
     <Route index element={<Navigate to="/home" replace />} />
     <Route path="/home" element={<Home />} />
+    <Route path="/login" element={<Login />} />
   </Route>
 ));
 
