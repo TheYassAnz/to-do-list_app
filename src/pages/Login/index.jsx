@@ -13,7 +13,7 @@ export default function Login() {
         const checkUser = async () => {
             axios.post('http://localhost:8000/api/auth/login', { email, password })
                 .then(response => {
-                    Cookies.set('token', response.data.token, { sameSite: 'strict', httpOnly: true });
+                    Cookies.set('token', response.data.token, { sameSite: 'strict', secure: true });
                     navigate('/home')
                 })
                 .catch(error => {
