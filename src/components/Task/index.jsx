@@ -40,7 +40,7 @@ export default function Task({ newTask, setNewTask, selectedTask }) {
         <li>
             <button onClick={deleteTask}>-</button>
             <input type="checkbox" name="task" id={selectedTask._id} onChange={archiveTask} />
-            <label for={selectedTask.id}>{selectedTask.name}</label>
+            <label htmlFor={selectedTask.id}>{selectedTask.name}</label>
         </li>
     )
 }
