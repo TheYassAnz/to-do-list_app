@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import API from '../../api'
+import Cookies from 'js-cookie'
 
 export default function Input({ tasks, setTasks }) {
-    function handleSubmit(e) {
-        e.preventDefault();
+    function handleSubmit(event) {
+        event.preventDefault();
         if (text !== '') {
             setText('')
             setTasks([...tasks, {
-                id: tasks.length,
                 name: text,
                 archived: false,
             }])
-            console.log()
+            console.log('')
             const postData = async () => {
-                axios.post('http://localhost:8000/api/tasks/', { id: tasks.length > 0 ? Number(tasks[tasks.length - 1].id) + 1 : 0, name: text, archived: false })
+                API.post('tasks', { name: text, archived: false }, { headers: { 'Authorization': 'Bearer ' + Cookies.get('token') } })
                     .then((response) => console.log(response))
-                    .catch((error) => console.log(error))
+                    .catch((error) => console.log(error.response))
             }
             postData();
         }

@@ -1,8 +1,9 @@
-import axios from "axios";
+import API from '../../api';
+import Cookies from 'js-cookie';
 export default function Task({ tasks, setTasks, selectedTask }) {
     function archiveTask() {
         const newList = tasks.map((task) => {
-            if (task.id === selectedTask.id) {
+            if (task._id === selectedTask._id) {
                 const updatedTask = {
                     ...task,
                     archived: !task.archived,
@@ -13,7 +14,7 @@ export default function Task({ tasks, setTasks, selectedTask }) {
         });
         setTasks(newList);
         const updateTask = async (task) => {
-            axios.put(`http://localhost:8000/api/tasks/${task.id}`, { archived: !task.archived })
+            API.put(`tasks/${task._id}`, { archived: !task.archived }, { headers: { 'Authorization': 'Bearer ' + Cookies.get('token') } })
                 .then((response) => console.log(response))
                 .catch((error) => console.log(error))
         }
@@ -22,10 +23,11 @@ export default function Task({ tasks, setTasks, selectedTask }) {
 
     function deleteTask() {
         setTasks(oldTasks => {
-            return oldTasks.filter(task => task.id !== selectedTask.id)
+            return oldTasks.filter(task => task._id !== selectedTask._id)
         })
         const deleteData = async (task) => {
-            axios.delete(`http://localhost:8000/api/tasks/${task.id}`)
+            console.log(task._id);
+            API.delete(`tasks/${task._id}`, { headers: { 'Authorization': 'Bearer ' + Cookies.get('token') } })
                 .then((response) => console.log(response))
                 .catch((error) => console.log(error))
         }
@@ -35,7 +37,7 @@ export default function Task({ tasks, setTasks, selectedTask }) {
 
         <li>
             <button onClick={deleteTask}>-</button>
-            <input type="checkbox" name="task" id={selectedTask.id} onChange={archiveTask} />
+            <input type="checkbox" name="task" id={selectedTask._id} onChange={archiveTask} />
             <label for={selectedTask.id}>{selectedTask.name}</label>
         </li>
     )

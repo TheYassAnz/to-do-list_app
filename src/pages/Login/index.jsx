@@ -1,4 +1,4 @@
-import axios from "axios";
+import API from '../../api';
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -11,10 +11,10 @@ export default function Login() {
 
         // Send the form data to the server
         const checkUser = async () => {
-            axios.post('http://localhost:8000/api/auth/login', { email, password })
+            API.post('auth/login', { email, password })
                 .then(response => {
                     Cookies.set('token', response.data.token, { sameSite: 'strict', secure: true });
-                    navigate('/home')
+                    navigate('/home', { replace: true })
                 })
                 .catch(error => {
                     console.error(error);
