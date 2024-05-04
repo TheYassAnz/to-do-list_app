@@ -1,30 +1,31 @@
 import API from '../../api';
 import Cookies from 'js-cookie';
-export default function Task({ tasks, setTasks, selectedTask }) {
+export default function Task({ newTask, setNewTask, selectedTask }) {
     function archiveTask() {
-        const newList = tasks.map((task) => {
-            if (task._id === selectedTask._id) {
-                const updatedTask = {
-                    ...task,
-                    archived: !task.archived,
-                };
-                return updatedTask;
-            }
-            return task;
-        });
-        setTasks(newList);
+        // const newList = tasks.map((task) => {
+        //     if (task._id === selectedTask._id) {
+        //         const updatedTask = {
+        //             ...task,
+        //             archived: !task.archived,
+        //         };
+        //         return updatedTask;
+        //     }
+        //     return task;
+        // });
+        // setTasks(newList);
         const updateTask = async (task) => {
             API.put(`tasks/${task._id}`, { archived: !task.archived }, { headers: { 'Authorization': 'Bearer ' + Cookies.get('token') } })
                 .then((response) => console.log(response))
                 .catch((error) => console.log(error))
         }
         updateTask(selectedTask)
+        setNewTask(true);
     }
 
     function deleteTask() {
-        setTasks(oldTasks => {
-            return oldTasks.filter(task => task._id !== selectedTask._id)
-        })
+        // setTasks(oldTasks => {
+        //     return oldTasks.filter(task => task._id !== selectedTask._id)
+        // })
         const deleteData = async (task) => {
             console.log(task._id);
             API.delete(`tasks/${task._id}`, { headers: { 'Authorization': 'Bearer ' + Cookies.get('token') } })
@@ -32,6 +33,7 @@ export default function Task({ tasks, setTasks, selectedTask }) {
                 .catch((error) => console.log(error))
         }
         deleteData(selectedTask);
+        setNewTask(true)
     }
     return (
 

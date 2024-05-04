@@ -6,6 +6,7 @@ import Cookies from 'js-cookie'
 
 export default function Home() {
     const [tasks, setTasks] = useState([]);
+    const [newTask, setNewTask] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         console.log('test')
@@ -18,9 +19,11 @@ export default function Home() {
                 console.error(error);
             }
         }
+        setNewTask(false);
         setIsLoading(false);
         fetchData();
-    }, []);
+
+    }, [newTask]);
 
     if (isLoading) {
         return (<div>Loading...</div>)
@@ -31,18 +34,18 @@ export default function Home() {
             <h3>Current Tasks</h3>
             <ul style={{ listStyle: 'none' }}>
                 {tasks.map((task, index) => (
-                    !task.archived && <Task key={`${index}-${task._id}`} selectedTask={task} tasks={tasks} setTasks={setTasks} />
+                    !task.archived && <Task key={`${index}-${task._id}`} setNewTask={setNewTask} newTask={newTask} selectedTask={task} />
                 ))}
             </ul>
             <details>
                 <summary style={{ fontSize: 'large' }}>Archived Tasks</summary>
                 <ul style={{ listStyle: 'none' }}>
                     {tasks.map((task, index) => (
-                        task.archived && <Task key={`${index}-${task._id}`} selectedTask={task} tasks={tasks} setTasks={setTasks} />
+                        task.archived && <Task key={`${index}-${task._id}`} setNewTask={setNewTask} newTask={newTask} selectedTask={task} />
                     ))}
                 </ul>
             </details><br />
-            <Input tasks={tasks} setTasks={setTasks} />
+            <Input setNewTask={setNewTask} newTask={newTask} />
         </>
     )
 }
